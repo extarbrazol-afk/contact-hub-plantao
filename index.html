@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <link rel="icon" type="image/svg+xml"
-href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23243469'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Arial' font-size='31' font-weight='bold' fill='white'%3ECH%3C/text%3E%3Ccircle cx='52' cy='13' r='6' fill='%23FFE600'/%3E%3C/svg%3E">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#243469">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23243469'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Arial' font-size='31' font-weight='bold' fill='white'%3ECH%3C/text%3E%3Ccircle cx='52' cy='13' r='6' fill='%23FFE600'/%3E%3C/svg%3E">
   <meta name="description" content="Contact Hub | Plantão CX — Consulte quem está em atendimento e a escala 12x36 do time.">
   <title>Contact Hub | Plantão CX</title>
   <style>
@@ -859,6 +858,48 @@ main{padding-top:27px}
 }
 @media(prefers-reduced-motion:reduce){.cal-day,.team-card,.outline-action{transition:none!important;transform:none!important}}
 
+
+/* Contato de escalonamento: faixa compacta, sem disputar atencao com o plantao. */
+.summary-layout{margin-bottom:15px}
+.escalation-strip{
+  display:flex;align-items:center;gap:14px;min-height:79px;
+  margin-bottom:34px;padding:15px 19px;
+  border:1px solid #dbe7f5;border-radius:17px;
+  background:linear-gradient(108deg,#fff 0%,#f8fbff 60%,#edf4fc 100%);
+  box-shadow:0 6px 22px rgba(30,57,113,.045);
+  position:relative;overflow:hidden;
+}
+.escalation-strip::before{
+  content:"";position:absolute;inset:0 auto 0 0;width:4px;
+  background:linear-gradient(180deg,#8cb9e9,#4776bb);
+}
+.escalation-icon{
+  display:grid;place-items:center;width:42px;height:42px;flex:none;
+  border:1px solid #d6e6f8;border-radius:12px;
+  background:linear-gradient(145deg,#e6f2ff,#edf4ff);color:#416ead;
+}
+.escalation-details{flex:1;min-width:0}
+.escalation-label{
+  display:block;margin-bottom:5px;font-size:9px;font-weight:850;
+  letter-spacing:.85px;text-transform:uppercase;color:#7183a1;
+}
+.escalation-name{display:flex;align-items:baseline;flex-wrap:wrap;gap:9px;font-size:14px;font-weight:850;color:#233c72;line-height:1.35}
+.escalation-name span{font-size:11px;font-weight:650;color:#7183a0}
+.escalation-phone{
+  display:inline-block;margin-top:5px;
+  font-size:11px;font-weight:680;letter-spacing:.12px;
+  color:#52749d;text-decoration:none;
+  border-bottom:1px dashed #a3bada;
+  transition:color .15s,border-color .15s;
+}
+.escalation-phone:hover{color:#17835e;border-color:#17835e}
+.escalation-phone:focus-visible{outline:3px solid #8ac7a8;outline-offset:3px;border-radius:2px}
+@media(max-width:680px){
+  .escalation-strip{margin-bottom:28px;padding:14px 14px;gap:11px}
+  .escalation-icon{width:37px;height:37px}
+  .escalation-name{font-size:13px;gap:6px}
+}
+@media(prefers-reduced-motion:reduce){.escalation-phone{transition:none!important}}
 </style>
 </head>
 <body>
@@ -895,7 +936,7 @@ main{padding-top:27px}
         <span class="live-edge" aria-hidden="true"></span><span class="live-edge-aura" aria-hidden="true"></span>
         <div class="live-card-content">
           <div class="live-topline"><span>Equipe em atuação</span><span class="live-pill">Em andamento</span></div>
-          <div class="live-main"><h3 id="current-team">Carregando equipe...</h3><div class="live-time" id="current-period"><svg class="icon sm"><use href="#i-clock"/></svg>Verificando turno</div><div class="live-subline"><div class="member-avatars" id="live-avatars"></div><small id="live-roster-caption">Consultando integrantes</small></div></div>
+          <div class="live-main"><h3 id="current-team">Carregando equipe...</h3><div class="live-time" id="current-period"><svg class="icon sm"><use href="#i-clock"/></svg>Verificando turno</div><div class="live-subline"><div class="member-avatars" id="live-avatars"></div></div></div>
           <div class="live-bottom"><div class="live-bottom-info"><div><label>Supervisor(a)</label><strong id="acting-supervisor">—</strong></div><div><label>Próxima troca em</label><strong id="countdown">--h --m --s</strong></div></div><button type="button" class="outline-action" id="current-team-btn">Ver integrantes <svg class="icon sm"><use href="#i-arrow"/></svg></button></div>
         </div>
       </article>
@@ -905,6 +946,14 @@ main{padding-top:27px}
         <div class="today-bottom"><span>07h às 07h do dia seguinte</span><div class="coverage-track" aria-hidden="true"><span></span><span></span></div></div>
       </article>
     </div>
+    <aside class="escalation-strip" aria-label="Contato do gestor da área para escalonamentos">
+      <div class="escalation-icon" aria-hidden="true"><svg class="icon lg"><use href="#i-users"/></svg></div>
+      <div class="escalation-details">
+        <span class="escalation-label">Escalonamentos e priorização de demandas</span>
+        <div class="escalation-name">Italo Novaes <span>Gestor da área</span></div>
+        <a class="escalation-phone" href="https://wa.me/5511999350667" target="_blank" rel="noopener noreferrer" title="Abrir conversa com Italo Novaes no WhatsApp" aria-label="Conversar com Italo Novaes no WhatsApp pelo telefone (11) 99935-0667">(11) 99935-0667</a>
+      </div>
+    </aside>
   </section>
   <section id="calendario" aria-label="Calendário dos plantões">
     <div class="section-heading"><div><div class="section-label">Escala 12×36</div><h2>Calendário</h2><p class="section-caption">Selecione uma data para consultar os responsáveis.</p></div><div class="section-note"><svg class="icon sm"><use href="#i-calendar"/></svg> Dia e noite · 12×36</div></div>
@@ -954,7 +1003,7 @@ function teamLabel(letter,shift){return `Equipe ${letter} · ${labels[shift]}`;}
 function whatsapp(person){const phone=String(person.phone||'').replace(/\D/g,'');if(!SHOW_PHONES||!/^\d{10,11}$/.test(phone))return '';return `<a class="whatsapp" href="https://wa.me/55${phone}" rel="noopener noreferrer" target="_blank" title="Conversar com ${escapeHtml(person.name)} no WhatsApp" aria-label="Abrir WhatsApp de ${escapeHtml(person.name)}">${svg('i-phone','icon sm')}</a>`;}
 function shiftInfo(now){const h=now.hour,today=now.iso;const activeShift=h>=7&&h<19?'day':'night';const activeDate=h<7?addDays(today,-1):today;const nextShift=activeShift==='day'?'night':'day';const nextDate=h>=19?addDays(today,1):today;const nextHour=nextShift==='day'?7:19;const nextDay=dateFromKey(nextDate);const remaining=Math.max(0,Math.floor((Date.UTC(nextDay.getUTCFullYear(),nextDay.getUTCMonth(),nextDay.getUTCDate(),nextHour)-Date.UTC(now.year,now.month-1,now.day,now.hour,now.minute,now.second))/1000));return{activeShift,activeDate,activeLetter:rota(activeDate,activeShift),nextShift,nextDate,nextHour,remaining};}
 function renderToday(now){const iso=now.iso;byId('today-title').textContent=cap(fullDate(iso,{weekday:'long',day:'numeric',month:'long'}));byId('header-date').textContent=cap(fullDate(iso,{weekday:'long',day:'numeric',month:'long'}));const showActive=now.hour>=7?now.hour<19?'day':'night':null;byId('today-shifts').innerHTML=['day','night'].map(shift=>{const letter=rota(iso,shift),isActive=shift===showActive;return `<div class="today-shift ${isActive?'is-active':''}"><span class="today-shift-badge ${shift}">${svg(icons[shift],'icon lg')}</span><div class="today-shift-main"><strong>Equipe ${letter} · ${labels[shift]}</strong><span>${shiftRange(shift)} · ${escapeHtml(supervisor(letter,shift))}</span></div><span class="today-chip ${isActive?'active':''}">${isActive?'Agora':shift==='day'?'07h':'19h'}</span></div>`;}).join('');}
-function renderLive(){const now=zonedNow(),info=shiftInfo(now);const sign=`${info.activeShift}:${info.activeDate}:${info.activeLetter}`;if(sign!==lastShiftSignature){byId('current-team').textContent=teamLabel(info.activeLetter,info.activeShift);byId('current-period').innerHTML=svg(icons[info.activeShift],'icon sm')+` ${shiftRange(info.activeShift)} · ${info.activeDate===now.iso?'Hoje':'Iniciado ontem'}`;byId('acting-supervisor').textContent=supervisor(info.activeLetter,info.activeShift);const members=teammate(info.activeLetter,info.activeShift);byId('live-avatars').innerHTML=members.map(p=>`<span title="${escapeHtml(p.name)}">${escapeHtml(initials(p.name))}</span>`).join('');byId('live-roster-caption').textContent=`${members.length} integrante${members.length!==1?'s':''} nesta equipe`;byId('current-team-btn').onclick=()=>focusTeam(info.activeLetter,info.activeShift);const previousSignature=lastShiftSignature;lastShiftSignature=sign;if(previousSignature&&selectedDate){const previousActiveDate=previousSignature.split(':')[1];selectDate(selectedDate===previousActiveDate&&info.activeDate!==previousActiveDate?info.activeDate:selectedDate);}}
+function renderLive(){const now=zonedNow(),info=shiftInfo(now);const sign=`${info.activeShift}:${info.activeDate}:${info.activeLetter}`;if(sign!==lastShiftSignature){byId('current-team').textContent=teamLabel(info.activeLetter,info.activeShift);byId('current-period').innerHTML=svg(icons[info.activeShift],'icon sm')+` ${shiftRange(info.activeShift)} · ${info.activeDate===now.iso?'Hoje':'Iniciado ontem'}`;byId('acting-supervisor').textContent=supervisor(info.activeLetter,info.activeShift);const members=teammate(info.activeLetter,info.activeShift);byId('live-avatars').innerHTML=members.map(p=>`<span title="${escapeHtml(p.name)}">${escapeHtml(initials(p.name))}</span>`).join('');byId('current-team-btn').onclick=()=>focusTeam(info.activeLetter,info.activeShift);const previousSignature=lastShiftSignature;lastShiftSignature=sign;if(previousSignature&&selectedDate){const previousActiveDate=previousSignature.split(':')[1];selectDate(selectedDate===previousActiveDate&&info.activeDate!==previousActiveDate?info.activeDate:selectedDate);}}
 const h=Math.floor(info.remaining/3600),m=Math.floor((info.remaining%3600)/60),s=info.remaining%60;byId('countdown').textContent=`${pad(h)}h ${pad(m)}m ${pad(s)}s`;
 const daySign=`${now.iso}:${now.hour>=7&&now.hour<19?'day':now.hour>=19?'night':'before'}`;if(daySign!==lastTodaySignature){renderToday(now);lastTodaySignature=daySign;}
 }
@@ -987,7 +1036,7 @@ function renderShiftDetails(iso,shift,expanded){
   const onDuty=iso===info.activeDate&&shift===info.activeShift;
   const roster=members.length?members.map(p=>`<div class="member-row"><div class="avatar ${shift}">${escapeHtml(initials(p.name))}</div><div class="person-text"><strong>${escapeHtml(p.name)}</strong><small>${escapeHtml(p.role)}</small></div>${whatsapp(p)}</div>`).join(''):'<div class="empty-roster">Integrantes ainda não cadastrados.</div>';
   const activeTag=onDuty?'<span class="duty-tag">EM ATUAÇÃO</span>':'';
-  return `<div class="shift-details ${shift}${onDuty?' is-on-duty':''}${expanded?' is-expanded':''}" data-shift="${shift}"><button type="button" class="shift-detail-head" data-toggle-shift="${shift}" aria-expanded="${expanded}" aria-controls="detail-roster-${shift}" aria-label="${labels[shift]}, equipe ${letter}, ${members.length} integrantes. ${expanded?'Recolher':'Expandir'} detalhes"><span class="shift-icon ${shift}">${svg(icons[shift])}</span><span class="shift-detail-text"><strong>${labels[shift]} · Equipe ${letter}</strong><small>${shiftRange(shift)}</small></span><span class="shift-head-trailing">${activeTag}<span class="detail-count">${members.length} pessoas</span><i class="shift-chevron" aria-hidden="true"></i></span></button><div class="detail-members" id="detail-roster-${shift}" ${expanded?'':'hidden'}>${roster}</div></div>`;
+  return `<div class="shift-details ${shift}${onDuty?' is-on-duty':''}${expanded?' is-expanded':''}" data-shift="${shift}"><button type="button" class="shift-detail-head" data-toggle-shift="${shift}" aria-expanded="${expanded}" aria-controls="detail-roster-${shift}" aria-label="${labels[shift]}, equipe ${letter}. ${expanded?'Recolher':'Expandir'} detalhes"><span class="shift-icon ${shift}">${svg(icons[shift])}</span><span class="shift-detail-text"><strong>${labels[shift]} · Equipe ${letter}</strong><small>${shiftRange(shift)}</small></span><span class="shift-head-trailing">${activeTag}<i class="shift-chevron" aria-hidden="true"></i></span></button><div class="detail-members" id="detail-roster-${shift}" ${expanded?'':'hidden'}>${roster}</div></div>`;
 }
 function setExpandedShift(next){
   expandedShift=expandedShift===next?null:next;
@@ -1018,7 +1067,7 @@ function selectDate(iso){
   byId('change-note').innerHTML=hasException(iso)?`<div class="change-message">${svg('i-info','icon sm')}<span><strong>Alteração pontual registrada.</strong> ${note?escapeHtml(note):'A escala deste dia foi ajustada.'}</span></div>`:'';
   renderCalendar();
 }
-function renderDirectory(){let html='';for(const letter of ['A','B'])for(const shift of ['day','night']){const members=teammate(letter,shift);html+=`<article class="card team-card ${shift}" id="team-${letter}-${shift}"><div class="team-card-head"><span class="team-card-icon">${svg(icons[shift],'icon lg')}</span><div class="team-card-heading"><h3>Equipe ${letter} · ${labels[shift]}</h3><span>${shiftRange(shift)}</span></div><span class="team-count">${members.length} integrante${members.length!==1?'s':''}</span></div><div class="roster-grid">${members.map(p=>`<div class="team-person"><div class="avatar ${shift}">${escapeHtml(initials(p.name))}</div><div class="person-text"><strong title="${escapeHtml(p.name)}">${escapeHtml(p.name)}</strong><small>${escapeHtml(p.role)}</small>${SHOW_PHONES&&p.formatted?`<small>${escapeHtml(p.formatted)}</small>`:''}</div>${whatsapp(p)}</div>`).join('')}</div><div class="team-footnote">${svg('i-check','icon sm')} Revezamento 12×36</div></article>`;}byId('team-directory').innerHTML=html;}
+function renderDirectory(){let html='';for(const letter of ['A','B'])for(const shift of ['day','night']){const members=teammate(letter,shift);html+=`<article class="card team-card ${shift}" id="team-${letter}-${shift}"><div class="team-card-head"><span class="team-card-icon">${svg(icons[shift],'icon lg')}</span><div class="team-card-heading"><h3>Equipe ${letter} · ${labels[shift]}</h3><span>${shiftRange(shift)}</span></div></div><div class="roster-grid">${members.map(p=>`<div class="team-person"><div class="avatar ${shift}">${escapeHtml(initials(p.name))}</div><div class="person-text"><strong title="${escapeHtml(p.name)}">${escapeHtml(p.name)}</strong><small>${escapeHtml(p.role)}</small>${SHOW_PHONES&&p.formatted?`<small>${escapeHtml(p.formatted)}</small>`:''}</div>${whatsapp(p)}</div>`).join('')}</div><div class="team-footnote">${svg('i-check','icon sm')} Revezamento 12×36</div></article>`;}byId('team-directory').innerHTML=html;}
 function focusTeam(letter,shift){const el=byId(`team-${letter}-${shift}`);if(!el)return;el.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'center'});el.classList.add('flash');window.setTimeout(()=>el.classList.remove('flash'),1600);}
 function changeMonth(step){const d=new Date(Date.UTC(displayedYear,displayedMonth+step,1));displayedYear=d.getUTCFullYear();displayedMonth=d.getUTCMonth();selectDate(isoKey(displayedYear,displayedMonth,1));}
 async function loadExceptions(){try{const response=await fetch('./alteracoes.json',{cache:'no-store'});if(!response.ok)return;const data=await response.json();if(data&&typeof data==='object'&&!Array.isArray(data)){exceptions=Object.fromEntries(Object.entries(data).filter(([date,v])=>/^\d{4}-\d{2}-\d{2}$/.test(date)&&v&&typeof v==='object'));lastShiftSignature='';lastTodaySignature='';selectDate(selectedDate);renderLive();}}catch(e){/* Ao abrir como arquivo local, a escala fixa funciona sem JSON. */}}
