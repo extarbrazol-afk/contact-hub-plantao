@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no">
   <meta name="theme-color" content="#243469">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23243469'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Arial' font-size='31' font-weight='bold' fill='white'%3ECH%3C/text%3E%3Ccircle cx='52' cy='13' r='6' fill='%23FFE600'/%3E%3C/svg%3E">
   <meta name="description" content="Contact Hub | Plantão CX — Consulte quem está em atendimento e a escala 12x36 do time.">
@@ -859,47 +860,50 @@ main{padding-top:27px}
 @media(prefers-reduced-motion:reduce){.cal-day,.team-card,.outline-action{transition:none!important;transform:none!important}}
 
 
-/* Contato de escalonamento: faixa compacta, sem disputar atencao com o plantao. */
-.summary-layout{margin-bottom:15px}
+/* Escalonamento: contato pequeno e direto, com o mesmo icone de WhatsApp do time. */
+.summary-layout{margin-bottom:12px}
 .escalation-strip{
-  display:flex;align-items:center;gap:14px;min-height:79px;
-  margin-bottom:34px;padding:15px 19px;
-  border:1px solid #dbe7f5;border-radius:17px;
-  background:linear-gradient(108deg,#fff 0%,#f8fbff 60%,#edf4fc 100%);
-  box-shadow:0 6px 22px rgba(30,57,113,.045);
-  position:relative;overflow:hidden;
+  display:flex;align-items:center;gap:11px;
+  width:max-content;max-width:100%;min-height:49px;
+  margin:0 0 27px auto;padding:8px 10px 8px 13px;
+  border:1px solid #dbe5f2;border-radius:13px;
+  background:rgba(255,255,255,.97);
+  box-shadow:0 4px 15px rgba(38,62,109,.045);
 }
-.escalation-strip::before{
-  content:"";position:absolute;inset:0 auto 0 0;width:4px;
-  background:linear-gradient(180deg,#8cb9e9,#4776bb);
-}
-.escalation-icon{
-  display:grid;place-items:center;width:42px;height:42px;flex:none;
-  border:1px solid #d6e6f8;border-radius:12px;
-  background:linear-gradient(145deg,#e6f2ff,#edf4ff);color:#416ead;
-}
-.escalation-details{flex:1;min-width:0}
+.escalation-details{min-width:0}
 .escalation-label{
-  display:block;margin-bottom:5px;font-size:9px;font-weight:850;
-  letter-spacing:.85px;text-transform:uppercase;color:#7183a1;
+  display:block;margin-bottom:3px;font-size:9px;font-weight:790;
+  letter-spacing:.16px;color:#72829f;line-height:1.3;
 }
-.escalation-name{display:flex;align-items:baseline;flex-wrap:wrap;gap:9px;font-size:14px;font-weight:850;color:#233c72;line-height:1.35}
-.escalation-name span{font-size:11px;font-weight:650;color:#7183a0}
+.escalation-name{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px;font-size:12px;font-weight:850;color:#233c72;line-height:1.24}
+.escalation-name span{font-size:10px;font-weight:600;color:#7183a0}
 .escalation-phone{
-  display:inline-block;margin-top:5px;
-  font-size:11px;font-weight:680;letter-spacing:.12px;
-  color:#52749d;text-decoration:none;
-  border-bottom:1px dashed #a3bada;
-  transition:color .15s,border-color .15s;
+  display:inline-flex;align-items:center;gap:9px;flex:none;
+  border-left:1px solid #e0e8f3;padding-left:11px;
+  text-decoration:none;color:#365c89;font-size:11px;font-weight:740;white-space:nowrap;
 }
-.escalation-phone:hover{color:#17835e;border-color:#17835e}
-.escalation-phone:focus-visible{outline:3px solid #8ac7a8;outline-offset:3px;border-radius:2px}
+.escalation-phone-number{border-bottom:1px dashed #acc1d9;padding-bottom:2px}
+.escalation-phone .whatsapp{
+  display:inline-grid;place-items:center;flex:none;width:32px;height:32px;
+  background:#f2fbf8;border:1px solid #d6eae2;border-radius:10px;color:#23865d;
+  transition:background .15s,border-color .15s;
+}
+.escalation-phone .whatsapp .icon{width:16px;height:16px}
+.escalation-phone:hover .whatsapp,.escalation-phone:focus-visible .whatsapp{background:#e5f6ee;border-color:#a8d6c0}
+.escalation-phone:hover .escalation-phone-number{color:#17835e;border-color:#17835e}
+.escalation-phone:focus-visible{outline:3px solid #8ac7a8;outline-offset:3px;border-radius:4px}
 @media(max-width:680px){
-  .escalation-strip{margin-bottom:28px;padding:14px 14px;gap:11px}
-  .escalation-icon{width:37px;height:37px}
-  .escalation-name{font-size:13px;gap:6px}
+  .escalation-strip{width:100%;margin-bottom:24px;padding:9px 10px;gap:8px}
+  .escalation-label{font-size:8px;letter-spacing:0}
+  .escalation-name{font-size:12px;gap:5px}
+  .escalation-name span{font-size:9px}
+  .escalation-phone{gap:7px;padding-left:9px;font-size:10px}
+  .escalation-phone .whatsapp{width:31px;height:31px}
 }
-@media(prefers-reduced-motion:reduce){.escalation-phone{transition:none!important}}
+@media(max-width:350px){
+  .escalation-phone-number{display:none}
+}
+@media(prefers-reduced-motion:reduce){.escalation-phone .whatsapp{transition:none!important}}
 </style>
 </head>
 <body>
@@ -946,13 +950,15 @@ main{padding-top:27px}
         <div class="today-bottom"><span>07h às 07h do dia seguinte</span><div class="coverage-track" aria-hidden="true"><span></span><span></span></div></div>
       </article>
     </div>
-    <aside class="escalation-strip" aria-label="Contato do gestor da área para escalonamentos">
-      <div class="escalation-icon" aria-hidden="true"><svg class="icon lg"><use href="#i-users"/></svg></div>
+    <aside class="escalation-strip" aria-label="Gestor da área para escalonamentos e priorização de demandas">
       <div class="escalation-details">
         <span class="escalation-label">Escalonamentos e priorização de demandas</span>
         <div class="escalation-name">Italo Novaes <span>Gestor da área</span></div>
-        <a class="escalation-phone" href="https://wa.me/5511999350667" target="_blank" rel="noopener noreferrer" title="Abrir conversa com Italo Novaes no WhatsApp" aria-label="Conversar com Italo Novaes no WhatsApp pelo telefone (11) 99935-0667">(11) 99935-0667</a>
       </div>
+      <a class="escalation-phone" href="https://wa.me/5511999350667" target="_blank" rel="noopener noreferrer" title="Abrir conversa com Italo Novaes no WhatsApp" aria-label="Abrir WhatsApp de Italo Novaes: (11) 99935-0667">
+        <span class="escalation-phone-number">(11) 99935-0667</span>
+        <span class="whatsapp" aria-hidden="true"><svg class="icon sm"><use href="#i-phone"/></svg></span>
+      </a>
     </aside>
   </section>
   <section id="calendario" aria-label="Calendário dos plantões">
