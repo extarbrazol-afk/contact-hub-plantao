@@ -15,11 +15,6 @@
     "status": "Pendente"
   },
   {
-    "produto": "Arthur",
-    "quantidade": 1,
-    "status": "Pendente"
-  },
-  {
     "produto": "André",
     "quantidade": 1,
     "status": "Computador"
