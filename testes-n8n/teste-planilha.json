@@ -23,5 +23,10 @@
     "produto": "Andre",
     "quantidade": 1,
     "status": "Indisponível"
+  },
+  {
+    "produto": "Larissa ",
+    "quantidade": 3,
+    "status": "Disponível"
   }
 ]
