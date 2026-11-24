@@ -13,5 +13,10 @@
     "produto": "Monitor",
     "quantidade": 2,
     "status": "Pendente"
+  },
+  {
+    "produto": "Cadeira",
+    "quantidade": 2,
+    "status": "Disponível"
   }
 ]
