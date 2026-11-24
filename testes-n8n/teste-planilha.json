@@ -15,18 +15,8 @@
     "status": "Pendente"
   },
   {
-    "produto": "Cadeira",
-    "quantidade": 2,
-    "status": "Disponível"
-  },
-  {
-    "produto": "Andre",
+    "produto": "Arthur",
     "quantidade": 1,
-    "status": "Indisponível"
-  },
-  {
-    "produto": "Larissa ",
-    "quantidade": 3,
-    "status": "Disponível"
+    "status": "Pendente"
   }
 ]
