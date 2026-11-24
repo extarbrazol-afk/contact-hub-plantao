@@ -18,5 +18,10 @@
     "produto": "Cadeira",
     "quantidade": 2,
     "status": "Disponível"
+  },
+  {
+    "produto": "Andre",
+    "quantidade": 1,
+    "status": "Indisponível"
   }
 ]
