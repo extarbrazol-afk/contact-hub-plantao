@@ -1,0 +1,17 @@
+[
+  {
+    "produto": "Mouse",
+    "quantidade": 10,
+    "status": "Disponível"
+  },
+  {
+    "produto": "Teclado",
+    "quantidade": 5,
+    "status": "Disponível"
+  },
+  {
+    "produto": "Monitor",
+    "quantidade": 2,
+    "status": "Pendente"
+  }
+]
